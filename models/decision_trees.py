@@ -131,7 +131,11 @@ class DecisionTreeClassifier:
                     return DecisionNode(value=self.Counter(y).most_common(1)[0])
                 except:
                     try:
-                        return DecisionNode(value=self.Counter(y).most_common(1))
+                        value = self.Counter(y).most_common(1)
+                        if value is None or None in value:
+                            raise Exception
+                        
+                        return DecisionNode(value=value)
                     except:
                         raise ValueError("Cannot create tree. Try to set a low tree depth.")
         
@@ -145,7 +149,11 @@ class DecisionTreeClassifier:
                     return DecisionNode(value=self.Counter(y).most_common(1)[0])
                 except:
                     try:
-                        return DecisionNode(value=self.Counter(y).most_common(1))
+                        value = self.Counter(y).most_common(1)
+                        if value is None or None in value:
+                            raise Exception
+                        
+                        return DecisionNode(value=value)
                     except:
                         raise ValueError("Cannot create tree. Try to set a low tree depth.")
         
@@ -165,8 +173,19 @@ class DecisionTreeClassifier:
             X (array-like): Feature matrix of shape (n_samples, n_features).
             y (array-like): Target labels of shape (n_samples,).
         """
-        X = self.np.asarray(X).astype(self.np.float64)
-        y = self.np.asarray(y)
+        if not isinstance(X,(self.np.ndarray)):
+            try:
+                X = self.np.asarray(X).astype(self.np.float64)
+            except:
+                raise TypeError("Data must be a list or array.")
+        else:
+            X = X.astype(self.np.float64)
+        
+        if not isinstance(y, (self.np.ndarray)):
+            try:
+                y = self.np.asarray(y)
+            except:
+                raise TypeError("Data must be a list or array.")
 
         if len(X.shape) != 2 or X.shape[1] is None:
             try:
@@ -213,7 +232,13 @@ class DecisionTreeClassifier:
         Returns:
             list: Predicted class labels for each input sample.
         """
-        X = self.np.asarray(X).astype(self.np.float64)
+        if not isinstance(X,(self.np.ndarray)):
+            try:
+                X = self.np.asarray(X).astype(self.np.float64)
+            except:
+                raise TypeError("Data must be a list or array.")
+        else:
+            X = X.astype(self.np.float64)
 
         if len(X.shape) != 2 or X.shape[1] is None:
             try:

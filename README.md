@@ -1,6 +1,6 @@
-# Custom Decision Tree Classifier
+# Custom Machine Learning Model
 
-This repository contains a custom implementation of a Decision Tree Classifier in Python.
+This repository contains a custom implementation of a Decision Tree Classifier in Python. The codes contained in this repository is for self-practice purpose only.
 
 ## Contents
 
@@ -17,16 +17,18 @@ Use this to create a machine learning model
 
 ## Example
 
-To use the custom Decision Tree Classifier in your project, follow these steps:
+To use the custom `DecisionTreeClassifier` in your project, follow these steps:
 
 1. Import the `DecisionTreeClassifier` class:
 
    ```python
    from decision_tree_classifier import DecisionTreeClassifier
 2. initialize the `DecisionTreeClassifier`:
+   
    ```python
    tree = DecisionTreeClassifier(max_depth=10)
-3. fit the tree with your data
+4. fit the tree with your data
+   
    ```python
    tree.fit(features, target)
 

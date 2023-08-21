@@ -10,7 +10,7 @@ This repository contains a custom implementation of a Decision Tree Classifier a
 
 ## Introduction
 
-The models implemented here may not be optimal. The purpose i made this repository is because i am learning to build machine learning algorithms from scratch. If you'd like to try some models i have built, you can pull this repository and follow some example on how to use it.
+The models implemented here may not be optimal. The purpose i made this repository is because i am learning to build machine learning algorithms from scratch. If you like to try some models i have built, you can pull this repository and follow some example on how to use it.
 
 ## Usage
 Use this to create a machine learning model. Again, i recommend using [scikit-learn's models](https://scikit-learn.org/stable/documentation.html) for production use.

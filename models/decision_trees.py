@@ -166,7 +166,7 @@ class DecisionTreeClassifier:
             y (array-like): Target labels of shape (n_samples,).
         """
         X = self.np.asarray(X).astype(self.np.float64)
-        y = self.np.asarray(y).astype(self.np.float64)
+        y = self.np.asarray(y)
 
         if len(X.shape) != 2 or X.shape[1] is None:
             try:

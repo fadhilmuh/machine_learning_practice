@@ -124,12 +124,18 @@ class DecisionTreeClassifier:
             DecisionNode: Root node of the built decision tree.
         """
         if depth == self.max_depth or len(self.np.unique(y)) == 1:  
-            return DecisionNode(value=self.Counter(y).most_common(1)[0][0])
+           try:
+               return DecisionNode(value=self.Counter(y).most_common(1)[0][0])
+           except:
+               return DecisionNode(value=self.Counter(y).most_common(1)[0])
         
         best_feature, best_threshold = self.find_best_split(X, y)
         
         if best_feature is None:
-            return DecisionNode(value=self.Counter(y).most_common(1)[0][0])
+            try:
+                return DecisionNode(value=self.Counter(y).most_common(1)[0][0])
+            except:
+                return DecisionNode(value=self.Counter(y).most_common(1)[0])
         
         left_X, left_y, right_X, right_y = self.split(X, y, best_feature, best_threshold)
         
@@ -196,7 +202,7 @@ class DecisionTreeClassifier:
             list: Predicted class labels for each input sample.
         """
         X = self.np.asarray(X).astype(self.np.float64)
-        
+
         if len(X.shape) != 2 or X.shape[1] is None:
             try:
                 X = X.reshape(-1,1)

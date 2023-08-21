@@ -12,7 +12,7 @@ from sklearn.metrics import accuracy_score
 
 if __name__ == '__main__':
     # Generate dummy data
-    num_samples = 500   # Number of samples
+    num_samples = 100   # Number of samples
     num_features = 10   # Number of features
     num_classes = 2     # Number of classes
 

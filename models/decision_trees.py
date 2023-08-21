@@ -133,7 +133,7 @@ class DecisionTreeClassifier:
                     try:
                         return DecisionNode(value=self.Counter(y).most_common(1))
                     except:
-                        raise ValueError("Cannot create tree. Try to set a low tree dept.")
+                        raise ValueError("Cannot create tree. Try to set a low tree depth.")
         
         best_feature, best_threshold = self.find_best_split(X, y)
         
@@ -147,7 +147,7 @@ class DecisionTreeClassifier:
                     try:
                         return DecisionNode(value=self.Counter(y).most_common(1))
                     except:
-                        raise ValueError("Cannot create tree. Try to set a low tree dept.")
+                        raise ValueError("Cannot create tree. Try to set a low tree depth.")
         
         left_X, left_y, right_X, right_y = self.split(X, y, best_feature, best_threshold)
         

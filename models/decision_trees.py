@@ -41,7 +41,7 @@ class DecisionTreeClassifier:
                 self.max_depth = max_depth
             else:
                 self.max_depth = self.getrecursionlimit()
-                self.warn(f"Maximum depth exceeds the maximum limit ({self.getrecursionlimit()}). Setting max_depth to maximum limit")
+                self.warn(f"Maximum depth exceeds the maximum limit. Setting max_depth to maximum limit")
         else:
             self.max_depth = self.getrecursionlimit()
 
@@ -133,33 +133,36 @@ class DecisionTreeClassifier:
         Returns:
             DecisionNode: Root node of the built decision tree.
         """
-        if depth == self.max_depth or len(self.np.unique(y)) == 1:  
-            try:
-                return DecisionNode(value=self.Counter(y).most_common(1)[0][0])
-            except:
+        try:
+            if depth == self.max_depth or len(self.np.unique(y)) == 1:  
                 try:
-                    return DecisionNode(value=self.Counter(y).most_common(1)[0])
+                    return DecisionNode(value=self.Counter(y).most_common(1)[0][0])
                 except:
-                    raise ValueError("Cannot create tree. Try setting a lower tree depth.")
-        
-        best_feature, best_threshold = self.find_best_split(X, y)
-        
-        if best_feature is None:
-            try:
-                return DecisionNode(value=self.Counter(y).most_common(1)[0][0])
-            except:
+                    try:
+                        return DecisionNode(value=self.Counter(y).most_common(1)[0])
+                    except:
+                        raise ValueError("Cannot create tree. Try setting a lower tree depth.")
+            
+            best_feature, best_threshold = self.find_best_split(X, y)
+            
+            if best_feature is None:
                 try:
-                    return DecisionNode(value=self.Counter(y).most_common(1)[0])
+                    return DecisionNode(value=self.Counter(y).most_common(1)[0][0])
                 except:
-                    raise ValueError("Cannot create tree. Try setting a lower tree depth.")
-        
-        left_X, left_y, right_X, right_y = self.split(X, y, best_feature, best_threshold)
-        
-        left_subtree = self.build_tree(left_X, left_y, depth + 1)
-        right_subtree = self.build_tree(right_X, right_y, depth + 1)
-        
-        return DecisionNode(feature=best_feature, threshold=best_threshold,
-                            left=left_subtree, right=right_subtree)
+                    try:
+                        return DecisionNode(value=self.Counter(y).most_common(1)[0])
+                    except:
+                        raise ValueError("Cannot create tree. Try setting a lower tree depth.")
+            
+            left_X, left_y, right_X, right_y = self.split(X, y, best_feature, best_threshold)
+            
+            left_subtree = self.build_tree(left_X, left_y, depth + 1)
+            right_subtree = self.build_tree(right_X, right_y, depth + 1)
+            
+            return DecisionNode(feature=best_feature, threshold=best_threshold,
+                                left=left_subtree, right=right_subtree)
+        except:
+            raise RecursionError(f"Maximum recursion depth reached. Cannot extend more nodes. Try to set a lower tree depth.\n Recommended depth: {self.getrecursionlimit() // 2}")
     
     def fit(self, X, y):
         """

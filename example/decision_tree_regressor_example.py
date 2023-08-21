@@ -29,4 +29,4 @@ if __name__ == '__main__':
 
     # Make predictions
     y_pred = tree.predict(X_test)
-    print("Mean Squared Error: {:.4f}".format(mean_absolute_error(y_test, y_pred)))
+    print("Mean Absolute Error: {:.4f}".format(mean_absolute_error(y_test, y_pred)))

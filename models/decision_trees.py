@@ -43,7 +43,7 @@ class DecisionTreeClassifier:
                 self.max_depth = self.getrecursionlimit()
                 self.warn(f"Maximum depth exceeds the maximum limit ({self.getrecursionlimit()}). Setting max_depth to maximum limit")
         else:
-            self.max_depth = max_depth
+            self.max_depth = self.getrecursionlimit()
 
         self.tree = None
     

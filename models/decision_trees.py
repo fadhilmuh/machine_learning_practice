@@ -124,10 +124,16 @@ class DecisionTreeClassifier:
             DecisionNode: Root node of the built decision tree.
         """
         if depth == self.max_depth or len(self.np.unique(y)) == 1:  
-           try:
-               return DecisionNode(value=self.Counter(y).most_common(1)[0][0])
-           except:
-               return DecisionNode(value=self.Counter(y).most_common(1)[0])
+            try:
+                return DecisionNode(value=self.Counter(y).most_common(1)[0][0])
+            except:
+                try:
+                    return DecisionNode(value=self.Counter(y).most_common(1)[0])
+                except:
+                    try:
+                        return DecisionNode(value=self.Counter(y).most_common(1))
+                    except:
+                        raise ValueError("Cannot create tree. Try to set a low tree dept.")
         
         best_feature, best_threshold = self.find_best_split(X, y)
         
@@ -135,7 +141,13 @@ class DecisionTreeClassifier:
             try:
                 return DecisionNode(value=self.Counter(y).most_common(1)[0][0])
             except:
-                return DecisionNode(value=self.Counter(y).most_common(1)[0])
+                try:
+                    return DecisionNode(value=self.Counter(y).most_common(1)[0])
+                except:
+                    try:
+                        return DecisionNode(value=self.Counter(y).most_common(1))
+                    except:
+                        raise ValueError("Cannot create tree. Try to set a low tree dept.")
         
         left_X, left_y, right_X, right_y = self.split(X, y, best_feature, best_threshold)
         

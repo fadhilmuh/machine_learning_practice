@@ -22,7 +22,7 @@ To use the custom `DecisionTreeClassifier` in your project, follow these steps:
 1. Import the `DecisionTreeClassifier` class:
 
    ```python
-   from decision_tree_classifier import DecisionTreeClassifier
+   from models.decision_trees import DecisionTreeClassifier
 2. initialize the `DecisionTreeClassifier`:
    
    ```python
@@ -31,4 +31,6 @@ To use the custom `DecisionTreeClassifier` in your project, follow these steps:
    
    ```python
    tree.fit(features, target)
+
+further example is available in the `example` directory.
 

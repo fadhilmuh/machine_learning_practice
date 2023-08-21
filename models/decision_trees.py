@@ -147,9 +147,9 @@ class DecisionTreeClassifier:
             X (array-like): Feature matrix of shape (n_samples, n_features).
             y (array-like): Target labels of shape (n_samples,).
         """
-        print("Fitting data...")
-        self.tree = self.build_tree(X, y)
-        print("Success!")
+        print("Fitting data. Please wait ...", end=" ")
+        self.tree = self.build_tree(self.np.asarray(X), self.np.asarray(y))
+        print("Finished!")
     
     def predict_single(self, node, sample):
         """

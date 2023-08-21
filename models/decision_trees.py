@@ -148,7 +148,7 @@ class DecisionTreeClassifier:
             y (array-like): Target labels of shape (n_samples,).
         """
         print("Fitting data. Please wait ...", end=" ")
-        self.tree = self.build_tree(self.np.asarray(X), self.np.asarray(y))
+        self.tree = self.build_tree(self.np.asarray(X).astype(self.np.float64), self.np.asarray(y).astype(self.np.float64))
         print("Finished!")
     
     def predict_single(self, node, sample):

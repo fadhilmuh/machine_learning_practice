@@ -26,6 +26,8 @@ class DecisionTreeClassifier:
     """
     from collections import Counter
     import numpy as np
+    from sys import getrecursionlimit
+    from warnings import warn
 
     def __init__(self, max_depth:int=None):
         """
@@ -34,7 +36,15 @@ class DecisionTreeClassifier:
         Parameters:
             max_depth (int, optional): Maximum depth of the decision tree. If None, the tree will grow until purity.
         """
-        self.max_depth = max_depth
+        if max_depth is not None:
+            if max_depth <= self.getrecursionlimit():
+                self.max_depth = max_depth
+            else:
+                self.max_depth = self.getrecursionlimit()
+                self.warn(f"Maximum depth exceeds the maximum limit ({self.getrecursionlimit()}). Setting max_depth to maximum limit")
+        else:
+            self.max_depth = max_depth
+
         self.tree = None
     
     def gini(self, labels):
@@ -130,14 +140,7 @@ class DecisionTreeClassifier:
                 try:
                     return DecisionNode(value=self.Counter(y).most_common(1)[0])
                 except:
-                    try:
-                        value = self.Counter(y).most_common(1)
-                        if value is None or None in value:
-                            raise Exception
-                        
-                        return DecisionNode(value=value)
-                    except:
-                        raise ValueError("Cannot create tree. Try to set a low tree depth.")
+                    raise ValueError("Cannot create tree. Try setting a lower tree depth.")
         
         best_feature, best_threshold = self.find_best_split(X, y)
         
@@ -148,14 +151,7 @@ class DecisionTreeClassifier:
                 try:
                     return DecisionNode(value=self.Counter(y).most_common(1)[0])
                 except:
-                    try:
-                        value = self.Counter(y).most_common(1)
-                        if value is None or None in value:
-                            raise Exception
-                        
-                        return DecisionNode(value=value)
-                    except:
-                        raise ValueError("Cannot create tree. Try to set a low tree depth.")
+                    raise ValueError("Cannot create tree. Try setting a lower tree depth.")
         
         left_X, left_y, right_X, right_y = self.split(X, y, best_feature, best_threshold)
         

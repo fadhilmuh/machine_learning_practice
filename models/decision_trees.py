@@ -16,7 +16,7 @@ class DecisionNode:
         self.right = right            # Right subtree
         self.value = value            # Class label (for leaf nodes)
 
-class DecisionTreeClassifier:
+class TreeModel:
     """
     Decision Tree Classifier implementation.
 
@@ -121,6 +121,94 @@ class DecisionTreeClassifier:
         
         return best_feature, best_threshold
     
+    def fit(self, X, y):
+        """
+        Fits the decision tree to the training data.
+
+        Parameters:
+            X (array-like): Feature matrix of shape (n_samples, n_features).
+            y (array-like): Target labels of shape (n_samples,).
+        """
+        if not isinstance(X,(self.np.ndarray)):
+            try:
+                X = self.np.asarray(X).astype(self.np.float64)
+            except:
+                raise TypeError("Data must be a list or array.")
+        else:
+            X = X.astype(self.np.float64)
+        
+        if not isinstance(y, (self.np.ndarray)):
+            try:
+                y = self.np.asarray(y)
+            except:
+                raise TypeError("Data must be a list or array.")
+
+        if len(X.shape) != 2 or X.shape[1] is None:
+            try:
+                X = X.reshape(-1,1)
+            except:
+                raise ValueError("Data must be 2-Dimensional.")
+        
+        if len(y.shape) != 1:
+            try:
+                y = y.squeeze()
+            except:
+                raise ValueError("Targets must be 1-Dimensional")
+
+        print("Fitting data. Please wait ...", end=" ")
+        self.tree = self.build_tree(X, y)
+        print("Finished!")
+
+    def predict(self, X):
+            """
+            Predicts the class labels for a set of samples using the decision tree.
+
+            Parameters:
+                X (array-like): Feature matrix of shape (n_samples, n_features).
+
+            Returns:
+                list: Predicted class labels for each input sample.
+            """
+            if not isinstance(X,(self.np.ndarray)):
+                try:
+                    X = self.np.asarray(X).astype(self.np.float64)
+                except:
+                    raise TypeError("Data must be a list or array.")
+            else:
+                X = X.astype(self.np.float64)
+
+            if len(X.shape) != 2 or X.shape[1] is None:
+                try:
+                    X = X.reshape(-1,1)
+                except:
+                    raise ValueError("Data must be 2-Dimensional.")
+
+            predictions = [self.predict_single(self.tree, sample) for sample in X]
+            return predictions
+    
+    def predict_single(self, node, sample):
+        """
+        Recursively predicts the class label for a single sample using the decision tree.
+
+        Parameters:
+            node (DecisionNode): Current node in the tree.
+            sample (array-like): Feature values of a single sample.
+
+        Returns:
+            int: Predicted class label.
+        """
+        if node.value is not None:
+            return node.value
+        
+        if sample[node.feature] <= node.threshold:
+            return self.predict_single(node.left, sample)
+        else:
+            return self.predict_single(node.right, sample)
+
+class DecisionTreeClassifier(TreeModel):
+    def __init__(self, max_depth: int = None):
+        super().__init__(max_depth)
+    
     def build_tree(self, X, y, depth=0):
         """
         Recursively builds the decision tree.
@@ -164,86 +252,41 @@ class DecisionTreeClassifier:
         except RecursionError:
             raise RecursionError(f"Maximum recursion depth reached. Cannot extend more nodes. Try to set a lower tree depth.\n Recommended depth: {self.np.max(10, self.getrecursionlimit() // 1e2)} or lower")
     
-    def fit(self, X, y):
+
+class DecisionTreeRegressor(TreeModel):
+    def __init__(self, max_depth: int=None):
+        super().__init__(max_depth)
+
+    def build_tree(self, X, y, depth=0):
         """
-        Fits the decision tree to the training data.
+        Recursively builds the decision tree.
 
         Parameters:
             X (array-like): Feature matrix of shape (n_samples, n_features).
             y (array-like): Target labels of shape (n_samples,).
-        """
-        if not isinstance(X,(self.np.ndarray)):
-            try:
-                X = self.np.asarray(X).astype(self.np.float64)
-            except:
-                raise TypeError("Data must be a list or array.")
-        else:
-            X = X.astype(self.np.float64)
-        
-        if not isinstance(y, (self.np.ndarray)):
-            try:
-                y = self.np.asarray(y)
-            except:
-                raise TypeError("Data must be a list or array.")
-
-        if len(X.shape) != 2 or X.shape[1] is None:
-            try:
-                X = X.reshape(-1,1)
-            except:
-                raise ValueError("Data must be 2-Dimensional.")
-        
-        if len(y.shape) != 1:
-            try:
-                y = y.squeeze()
-            except:
-                raise ValueError("Targets must be 1-Dimensional")
-
-        print("Fitting data. Please wait ...", end=" ")
-        self.tree = self.build_tree(X, y)
-        print("Finished!")
-    
-    def predict_single(self, node, sample):
-        """
-        Recursively predicts the class label for a single sample using the decision tree.
-
-        Parameters:
-            node (DecisionNode): Current node in the tree.
-            sample (array-like): Feature values of a single sample.
+            depth (int): Current depth of the tree.
 
         Returns:
-            int: Predicted class label.
+            DecisionNode: Root node of the built decision tree.
         """
-        if node.value is not None:
-            return node.value
-        
-        if sample[node.feature] <= node.threshold:
-            return self.predict_single(node.left, sample)
-        else:
-            return self.predict_single(node.right, sample)
-    
-    def predict(self, X):
-        """
-        Predicts the class labels for a set of samples using the decision tree.
-
-        Parameters:
-            X (array-like): Feature matrix of shape (n_samples, n_features).
-
-        Returns:
-            list: Predicted class labels for each input sample.
-        """
-        if not isinstance(X,(self.np.ndarray)):
-            try:
-                X = self.np.asarray(X).astype(self.np.float64)
-            except:
-                raise TypeError("Data must be a list or array.")
-        else:
-            X = X.astype(self.np.float64)
-
-        if len(X.shape) != 2 or X.shape[1] is None:
-            try:
-                X = X.reshape(-1,1)
-            except:
-                raise ValueError("Data must be 2-Dimensional.")
-
-        predictions = [self.predict_single(self.tree, sample) for sample in X]
-        return predictions
+        try:
+            if len(y) == 1:
+                return DecisionNode(value=y[0])
+            
+            if depth == self.max_depth:
+                return DecisionNode(value=self.np.mean(y))
+            
+            best_feature, best_threshold = self.find_best_split(X, y)
+            
+            if best_feature is None:
+                return DecisionNode(value=self.np.mean(y))
+            
+            left_X, left_y, right_X, right_y = self.split(X, y, best_feature, best_threshold)
+            
+            left_subtree = self.build_tree(left_X, left_y, depth + 1)
+            right_subtree = self.build_tree(right_X, right_y, depth + 1)
+            
+            return DecisionNode(feature=best_feature, threshold=best_threshold,
+                                left=left_subtree, right=right_subtree)
+        except RecursionError:
+            raise RecursionError("Maximum depth reached limit. Try to set a lower tree depth.")

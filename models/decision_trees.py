@@ -147,8 +147,23 @@ class DecisionTreeClassifier:
             X (array-like): Feature matrix of shape (n_samples, n_features).
             y (array-like): Target labels of shape (n_samples,).
         """
+        X = self.np.asarray(X).astype(self.np.float64)
+        y = self.np.asarray(y).astype(self.np.float64)
+
+        if len(X.shape) != 2 or X.shape[1] is None:
+            try:
+                X = X.reshape(-1,1)
+            except:
+                raise ValueError("Data must be 2-Dimensional.")
+        
+        if len(y.shape) != 1:
+            try:
+                y = y.squeeze()
+            except:
+                raise ValueError("Targets must be 1-Dimensional")
+
         print("Fitting data. Please wait ...", end=" ")
-        self.tree = self.build_tree(self.np.asarray(X).astype(self.np.float64), self.np.asarray(y).astype(self.np.float64))
+        self.tree = self.build_tree(X, y)
         print("Finished!")
     
     def predict_single(self, node, sample):
@@ -180,5 +195,13 @@ class DecisionTreeClassifier:
         Returns:
             list: Predicted class labels for each input sample.
         """
+        X = self.np.asarray(X).astype(self.np.float64)
+        
+        if len(X.shape) != 2 or X.shape[1] is None:
+            try:
+                X = X.reshape(-1,1)
+            except:
+                raise ValueError("Data must be 2-Dimensional.")
+
         predictions = [self.predict_single(self.tree, sample) for sample in X]
         return predictions

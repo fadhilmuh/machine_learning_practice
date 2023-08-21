@@ -161,8 +161,8 @@ class DecisionTreeClassifier:
             
             return DecisionNode(feature=best_feature, threshold=best_threshold,
                                 left=left_subtree, right=right_subtree)
-        except:
-            raise RecursionError(f"Maximum recursion depth reached. Cannot extend more nodes. Try to set a lower tree depth.\n Recommended depth: {self.getrecursionlimit() // 2}")
+        except RecursionError:
+            raise RecursionError(f"Maximum recursion depth reached. Cannot extend more nodes. Try to set a lower tree depth.\n Recommended depth: {self.np.max(10, self.getrecursionlimit() // 1e2)} or lower")
     
     def fit(self, X, y):
         """

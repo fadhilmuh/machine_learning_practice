@@ -1,6 +1,6 @@
 # Custom Machine Learning Model
 
-This repository contains a custom implementation of a Decision Tree Classifier in Python. The codes contained in this repository is for self-practice purpose only.
+This repository contains a custom implementation of a Decision Tree Classifier and Regressor in Python. The code contained in this repository is for self-practice purposes only. **Please refrain from using these models for deployment**. I recommend using [scikit-learn's models](https://scikit-learn.org/stable/documentation.html) for production use.
 
 ## Contents
 

@@ -18,7 +18,7 @@ class DecisionNode:
 
 class TreeModel:
     """
-    Decision Tree Classifier implementation.
+    Decision Tree Model implementation.
 
     Attributes:
         max_depth (int): Maximum depth of the tree.
@@ -160,31 +160,31 @@ class TreeModel:
         print("Finished!")
 
     def predict(self, X):
-            """
-            Predicts the class labels for a set of samples using the decision tree.
+        """
+        Predicts the class labels for a set of samples using the decision tree.
 
-            Parameters:
-                X (array-like): Feature matrix of shape (n_samples, n_features).
+        Parameters:
+            X (array-like): Feature matrix of shape (n_samples, n_features).
 
-            Returns:
-                list: Predicted class labels for each input sample.
-            """
-            if not isinstance(X,(self.np.ndarray)):
-                try:
-                    X = self.np.asarray(X).astype(self.np.float64)
-                except:
-                    raise TypeError("Data must be a list or array.")
-            else:
-                X = X.astype(self.np.float64)
+        Returns:
+            list: Predicted class labels for each input sample.
+        """
+        if not isinstance(X,(self.np.ndarray)):
+            try:
+                X = self.np.asarray(X).astype(self.np.float64)
+            except:
+                raise TypeError("Data must be a list or array.")
+        else:
+            X = X.astype(self.np.float64)
 
-            if len(X.shape) != 2 or X.shape[1] is None:
-                try:
-                    X = X.reshape(-1,1)
-                except:
-                    raise ValueError("Data must be 2-Dimensional.")
+        if len(X.shape) != 2 or X.shape[1] is None:
+            try:
+                X = X.reshape(-1,1)
+            except:
+                raise ValueError("Data must be 2-Dimensional.")
 
-            predictions = [self.predict_single(self.tree, sample) for sample in X]
-            return predictions
+        predictions = [self.predict_single(self.tree, sample) for sample in X]
+        return predictions
     
     def predict_single(self, node, sample):
         """
@@ -206,7 +206,17 @@ class TreeModel:
             return self.predict_single(node.right, sample)
 
 class DecisionTreeClassifier(TreeModel):
-    def __init__(self, max_depth: int = None):
+    def __init__(self, max_depth: int = 3):
+        """
+        Decision Tree Classifier implementation.
+
+        Attributes:
+            max_depth (int): Maximum depth of the tree.
+                > default value = 3
+                if None then will create node until purity::might causing error
+
+            tree (DecisionNode): Root node of the decision tree.
+        """
         super().__init__(max_depth)
     
     def build_tree(self, X, y, depth=0):
@@ -254,7 +264,17 @@ class DecisionTreeClassifier(TreeModel):
     
 
 class DecisionTreeRegressor(TreeModel):
-    def __init__(self, max_depth: int=None):
+    def __init__(self, max_depth: int = 3):
+        """
+        Decision Tree Regressor implementation.
+
+        Attributes:
+            max_depth (int): Maximum depth of the tree.
+                > default value = 3
+                if None then will create node until purity::might causing error
+                
+            tree (DecisionNode): Root node of the decision tree.
+        """
         super().__init__(max_depth)
 
     def build_tree(self, X, y, depth=0):

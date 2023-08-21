@@ -29,5 +29,5 @@ if __name__ == '__main__':
     tree.fit(X_train, y_train)
 
     # Make predictions
-    predictions = tree.predict(X_test)
-    print("Accuracy: {:.4f}".format(accuracy_score(predictions, y_test)))
+    y_pred = tree.predict(X_test)
+    print("Accuracy: {:.4f}".format(accuracy_score(y_test, y_pred)))

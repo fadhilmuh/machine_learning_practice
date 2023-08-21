@@ -10,27 +10,42 @@ This repository contains a custom implementation of a Decision Tree Classifier a
 
 ## Introduction
 
-The Decision Tree Classifier is implemented using the DecisionNode class and the DecisionTreeClassifier class. It supports various parameters like max_depth for controlling the depth of the tree.
+The models implemented here may not be optimal. The purpose i made this repository is because i am learning to build machine learning algorithms from scratch. If you'd like to try some models i have built, you can pull this repository and follow some example on how to use it.
 
 ## Usage
-Use this to create a machine learning model
+Use this to create a machine learning model. Again, i recommend using [scikit-learn's models](https://scikit-learn.org/stable/documentation.html) for production use.
 
 ## Example
 
-To use the custom `DecisionTreeClassifier` in your project, follow these steps:
+If you want to use the custom `DecisionTreeClassifier` in your project or anything else, follow these steps:
+1. Clone this repository to your workspace (if you have not done it)
 
-1. Import the `DecisionTreeClassifier` class:
+   ```python
+   !git clone https://github.com/fadhilmuh/machine_learning_practice.git
+
+2. Import the model you want. For example, `DecisionTreeClassifier` class:
 
    ```python
    from models.decision_trees import DecisionTreeClassifier
-2. initialize the `DecisionTreeClassifier`:
+   ```
+   
+   or import the whole library
+   ```python
+   import machine_learning_practice as MLP
+
+3. initialize the `DecisionTreeClassifier`:
    
    ```python
-   tree = DecisionTreeClassifier(max_depth=10)
+   tree = DecisionTreeClassifier()
+   ```
+
+   or if you use from the main library (following the previous step)
+   ```python
+   tree = MLP.models.decision_trees.DecisionTreeClassifier()
+   
 4. fit the tree with your data
    
    ```python
    tree.fit(features, target)
 
 further example is available in the `example` directory.
-

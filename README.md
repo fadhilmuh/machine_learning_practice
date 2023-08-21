@@ -26,7 +26,7 @@ If you want to use the custom `DecisionTreeClassifier` in your project or anythi
 2. Import the model you want. For example, `DecisionTreeClassifier` class:
 
    ```python
-   from models.decision_trees import DecisionTreeClassifier
+   from machine_learning_practice.models.decision_trees import DecisionTreeClassifier
    ```
    
    or import the whole library
@@ -42,7 +42,7 @@ If you want to use the custom `DecisionTreeClassifier` in your project or anythi
    or if you use from the main library (following the previous step)
    ```python
    tree = MLP.models.decision_trees.DecisionTreeClassifier()
-   
+
 4. fit the tree with your data
    
    ```python
